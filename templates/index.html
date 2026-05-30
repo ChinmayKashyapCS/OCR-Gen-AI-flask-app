@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>OCR + Gemini AI</title>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f5f5f5;
+    margin:40px;
+}
+
+.container{
+    width:850px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+}
+
+textarea{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+}
+
+button{
+    background:#4285F4;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.response{
+    background:#eef4ff;
+    padding:15px;
+    margin-top:20px;
+    border-radius:8px;
+}
+
+input[type="text"]{
+    width:100%;
+    padding:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>OCR + Gemini AI Assistant</h2>
+
+<form method="POST"
+      enctype="multipart/form-data">
+
+    <input
+        type="hidden"
+        name="action"
+        value="extract">
+
+    <input
+        type="file"
+        name="image"
+        required>
+
+    <br><br>
+
+    <button>
+        Extract Text
+    </button>
+
+</form>
+
+{% if extracted_text %}
+
+<h3>Extracted Text</h3>
+
+<textarea rows="12" readonly>
+{{ extracted_text }}
+</textarea>
+
+<hr>
+
+<h3>Ask Gemini</h3>
+
+<form method="POST">
+
+    <input
+        type="hidden"
+        name="action"
+        value="ask_ai">
+
+    <input
+        type="hidden"
+        name="context_text"
+        value="{{ extracted_text }}">
+
+    <input
+        type="text"
+        name="prompt"
+        placeholder="Ask anything about extracted text..."
+        required>
+
+    <br><br>
+
+    <button>
+        Ask AI
+    </button>
+
+</form>
+
+{% endif %}
+
+{% if ai_response %}
+
+<div class="response">
+
+<h3>Gemini Response</h3>
+
+<p>{{ ai_response }}</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>
